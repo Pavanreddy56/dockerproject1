@@ -1,4 +1,4 @@
-#version: '3.8'
+#version: "3.9"
 
 services:
   mongo:
@@ -35,8 +35,11 @@ services:
     depends_on:
       - mongo
     volumes:
+      # Volume for uploaded resumes
       - ./backend/uploads:/usr/src/app/uploads
+      # Volume for frontend static files
       - ./backend/public:/usr/src/app/public
 
 volumes:
   mongo_data:
+
