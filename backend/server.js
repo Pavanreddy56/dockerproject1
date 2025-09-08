@@ -46,3 +46,31 @@ start().catch(err => {
   console.error('Failed to start app:', err);
   process.exit(1);
 });
+
+const express = require("express");
+const Quiz = require("../models/quiz");
+
+const router = express.Router();
+
+// Save quiz attempt
+router.post("/quiz", async (req, res) => {
+  try {
+    const quiz = new Quiz(req.body);  // expects {title, questions, score}
+    await quiz.save();
+    res.status(201).json({ message: "Quiz saved successfully", quiz });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get all quiz attempts
+router.get("/quiz", async (req, res) => {
+  try {
+    const quizzes = await Quiz.find();
+    res.json(quizzes);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+module.exports = router;
